@@ -1,11 +1,19 @@
 {
-  "name": "toolkit008",
-  "version": "1.0.0",
-  "description": "JS常用封装",
+  "name": "jsw-toolkit",
+  "version": "1.0.1",
+  "description": "JS常用方法封装",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Crystal",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Crystal923/toolkitjs.git"
+  },
+  "author": "crystal1109",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Crystal923/toolkitjs/issues"
+  },
+  "homepage": "https://github.com/Crystal923/toolkitjs#readme"
 }

@@ -1,4 +1,4 @@
-let toolkit = {
+export default {
     /**
      * 手机号校验
      * @param phone  需要校验的手机号
@@ -96,4 +96,3 @@ let toolkit = {
         }
     }
 }
-export default toolkit;
