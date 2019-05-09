@@ -112,7 +112,7 @@ let jswToolkit = {
         }
     },
     /**
-    * 读cookie
+    * 读取cookie
     * @param c_name  cookie的key值
     * @returns cookie的value值
     */
@@ -129,7 +129,7 @@ let jswToolkit = {
         return "";
     },
     /**
-    * 存cookie
+    * 存储cookie
     * @param c_name  cookie的key值
     * @param value  cookie的value值
     * @param expire  过期时间 默认100年
@@ -144,7 +144,7 @@ let jswToolkit = {
      * @param c_name  cookie的key值
      */
     delCookie (c_name) {
-        setCookie(c_name, "", -1)
+        this.setCookie(c_name, "", -1)
     },
     /**
      * 清除所有cookie,原理就是循环获取所有已存储的cookie的key值，根据key值将value设置为‘’
@@ -153,7 +153,7 @@ let jswToolkit = {
         let arr = document.cookie.split(';');
         if (arr.length > 0) {
             for (let i = 0; i < arr.length; i++) {
-                setCookie(arr[i].split('=')[0], "", -1)
+                this.setCookie(arr[i].split('=')[0], "", -1)
             }
         }
     }
