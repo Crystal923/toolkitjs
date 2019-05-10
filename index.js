@@ -156,6 +156,45 @@ let jswToolkit = {
                 this.setCookie(arr[i].split('=')[0], "", -1)
             }
         }
-    }
+    },
+    /**
+     * base64 转换为 Blob 对象
+     * @param base64 
+     * @param fileName 数据转换为 Blob 对象
+     * @returns {Object}  Blob对象
+     */
+    base64ToBlob (base64, fileName) {
+        var arr = base64.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        };
+        let b = new Blob([u8arr], { type: mime });
+        b.lastModifiedDate = new Date();
+        b.name = fileName;
+        return b;
+    },
+    /**
+     * 
+     * @param {*} url 服务器存放文件地址
+     * @param {*} file 文件对象
+     * @param {*} callback 上传完成回调
+     */
+    upload (url, file, callback) {
+        // FormData 对象
+        var form = new FormData();
+        // 文件对象
+        form.append("file", file, 'img.png');
+        // 其他参数
+        form.append("token", this.$getCookie("token"));
+        // XMLHttpRequest 对象
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", url, true);
+        xhr.onload = callback;
+        xhr.send(form);
+    },
 }
 module.exports = jswToolkit;
