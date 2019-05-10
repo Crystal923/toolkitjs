@@ -1,6 +1,6 @@
 {
   "name": "jsw-toolkit",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "JS常用方法封装",
   "main": "index.js",
   "scripts": {
