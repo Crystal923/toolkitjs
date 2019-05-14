@@ -179,17 +179,20 @@ let jswToolkit = {
     },
     /**
      * 
-     * @param {*} url 服务器存放文件地址
-     * @param {*} file 文件对象
-     * @param {*} callback 上传完成回调
+     * @param {*} url 接收文件的URL地址
+     * @param {*} file 需要上传的file对象
+     * @param {*} params 其他参数,对象形式
+     * @param {*} callback 上传成功回调
      */
-    upload (url, file, callback) {
+    upload (url, file, params, callback) {
         // FormData 对象
         var form = new FormData();
         // 文件对象
         form.append("file", file, 'img.png');
         // 其他参数
-        form.append("token", this.$getCookie("token"));
+        for (var key in params) {
+            form.append(key, params[key]);
+        }
         // XMLHttpRequest 对象
         var xhr = new XMLHttpRequest();
         xhr.open("post", url, true);
