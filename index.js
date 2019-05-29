@@ -112,6 +112,18 @@ let jswToolkit = {
         }
     },
     /**
+     * 判断手机机型 
+     * @returns {Boolean}   true:ios   false:Android
+     */
+    isIos () {
+        let userAgent = navigator.userAgent.toLocaleLowerCase();
+        if (/iphone|ipad|ipod/.test(userAgent)) {
+            return true;
+        } else if (/android/.test(userAgent)) {
+            return false;
+        }
+    },
+    /**
     * 读取cookie
     * @param c_name  cookie的key值
     * @returns cookie的value值
@@ -199,5 +211,45 @@ let jswToolkit = {
         xhr.onload = callback;
         xhr.send(form);
     },
+    /**
+     * 将字符串转换为标准时间
+     * @param {*} str 
+     * @returns {String}  标准时间
+     */
+    strToTime (str) {
+        return new Date(str.replace(/\-/g, "/"));
+    },
+    /**
+     * 将字符串转换成时间戳
+     * @param {*} str 
+     * @returns {String} 时间戳
+     */
+    strToTimestamp (str) {
+        return Date.parse(new Date(str.replace(/\-/g, "/")));
+    },
+    /**
+     * 获取当前时间的时间戳
+     */
+    getCurrentTimestamp () {
+        let date = new Date();
+        let Y = date.getFullYear() + '/';
+        let M = (date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + "/";
+        let D = date.getDate() + ' ';
+        let h = date.getHours() + ':';
+        let m = date.getMinutes() + ':';
+        let s = date.getSeconds();
+        let str = Y + M + D + h + m + s;
+        return Date.parse(new Date(str.replace(/\-/g, "/")));
+    },
+    /**
+     * 将两个时间进行对比，默认传入的时间的格式为字符串
+     * @param {*} time 
+     * @param {*} time2 
+     * @returns  {Number} 1：time 大于 time2；0： time 等于 time2； -1：time 小于 time2
+     */
+    compareTime (time, time2) {
+        let result = Date.parse(new Date(time.toString().replace(/\-/g, "/"))) - Date.parse(new Date(time2.toString().replace(/\-/g, "/")));
+        return result > 0 ? 1 : result === 0 ? 0 : -1;
+    }
 }
 module.exports = jswToolkit;
