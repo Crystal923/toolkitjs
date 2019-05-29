@@ -90,6 +90,7 @@ let jswToolkit = {
      * @returns {Object}
      */
     confirmPassword (password, confirmPassword) {
+        let obj = {};
         if (password !== confirmPassword) {
             obj.code = 40003;
             obj.msg = '两次输入密码不一致';
@@ -250,6 +251,47 @@ let jswToolkit = {
     compareTime (time, time2) {
         let result = Date.parse(new Date(time.toString().replace(/\-/g, "/"))) - Date.parse(new Date(time2.toString().replace(/\-/g, "/")));
         return result > 0 ? 1 : result === 0 ? 0 : -1;
+    },
+    checkIdCard (idCard) {
+        let obj = {};
+        //15位和18位身份证号码的正则表达式
+        var reg = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+        if (reg.test(idCard)) {
+            // 格式验证成功，需要继续验证准确性
+            if (idCard.length == 18) {
+                var idCardWi = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2); //将前17位加权因子保存在数组里
+                var idCardY = new Array(1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2); //这是除以11后，可能产生的11位余数、验证码，也保存成数组
+                var idCardWiSum = 0; //用来保存前17位各自乖以加权因子后的总和
+                for (var i = 0; i < 17; i++) {
+                    idCardWiSum += idCard.substring(i, i + 1) * idCardWi[i];
+                }
+                var idCardMod = idCardWiSum % 11; //计算出校验码所在数组的位置
+                var idCardLast = idCard.substring(17); //得到最后一位身份证号码
+                //如果等于2，则说明校验码是10，身份证号码最后一位应该是X
+                if (idCardMod == 2) {
+                    if (idCardLast == "X" || idCardLast == "x") {
+                        obj.code = 200;
+                        obj.msg = '验证通过'
+                    } else {
+                        obj.code = 40003;
+                        obj.msg = '身份证号验证错误'
+                    }
+                } else {
+                    //用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
+                    if (idCardLast == idCardY[idCardMod]) {
+                        obj.code = 200;
+                        obj.msg = '验证通过'
+                    } else {
+                        obj.code = 40003;
+                        obj.msg = '身份证号验证错误'
+                    }
+                }
+            }
+        } else {
+            obj.code = 40003;
+            obj.msg = '身份证号格式错误'
+        }
+        return obj;
     }
 }
 module.exports = jswToolkit;
