@@ -252,6 +252,10 @@ let jswToolkit = {
         let result = Date.parse(new Date(time.toString().replace(/\-/g, "/"))) - Date.parse(new Date(time2.toString().replace(/\-/g, "/")));
         return result > 0 ? 1 : result === 0 ? 0 : -1;
     },
+    /**
+     * 身份证号验证
+     * @param {*} idCard 
+     */
     checkIdCard (idCard) {
         let obj = {};
         //15位和18位身份证号码的正则表达式
